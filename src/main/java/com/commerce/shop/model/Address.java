@@ -6,21 +6,28 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class Color {
+public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String codeColor;
+    @Column(columnDefinition = "nvarchar(255)")
+    private String address;
 
-    private String nameColor;
+    @Column(columnDefinition = "nvarchar(255)")
+    private String country;
 
+    @Column(columnDefinition = "nvarchar(255)")
+    private String state;
+
+
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private User user;
 }

@@ -1,11 +1,13 @@
 package com.commerce.shop.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -19,16 +21,17 @@ public class Sale {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(columnDefinition = "nvarchar(255)")
     private String saleName;
 
     private int saleValue;
 
-    private String startDate;
+    private Date startDate;
 
-    private String endDate;
+    private Date endDate;
 
-    private boolean status;
 
     @OneToMany(mappedBy = "sale", fetch = FetchType.LAZY )
+    @JsonIgnore
     private List<Product> productsSale;
 }

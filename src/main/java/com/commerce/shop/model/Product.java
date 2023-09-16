@@ -1,7 +1,6 @@
 package com.commerce.shop.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -50,14 +49,11 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "sale_id")
-    @JsonIgnore
     private Sale sale;
-
-    @OneToMany
-    private List<Color> colors;
-
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Review> reviews;
+
+
 }

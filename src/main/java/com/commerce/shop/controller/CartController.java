@@ -1,15 +1,17 @@
 package com.commerce.shop.controller;
 
 import com.commerce.shop.model.Cart;
+import com.commerce.shop.model.dto.ListItemCheckout;
 import com.commerce.shop.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/cart")
@@ -43,5 +45,13 @@ private CartService cartService;
         cartService.removeItem(id);
 
         return  new ResponseEntity<>("Delete success", HttpStatus.OK);
+    }
+
+
+    @PostMapping("/add/item-checkout")
+    public ResponseEntity<?>  addItemCheckout(@RequestBody List<ListItemCheckout> items){
+
+        return  new ResponseEntity<>("result", HttpStatus.OK);
+
     }
 }

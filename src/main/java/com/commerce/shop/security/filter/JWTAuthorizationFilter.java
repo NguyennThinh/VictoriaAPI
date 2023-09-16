@@ -8,6 +8,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,14 +17,21 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Date;
 
 
-@AllArgsConstructor
+
 public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
 
     private UserDetailsService userDetailsService;
 
+    public JWTAuthorizationFilter(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
+
+    @Value("${jwt.expiration}")
+    private long jwtExpiration;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
@@ -34,6 +42,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
         }
           String token = requestHeader.replace(SecurityConstants.BEARER, "");
             String email = JWT.require(Algorithm.HMAC512(SecurityConstants.SECRET_KEY))
+                    .acceptExpiresAt(System.currentTimeMillis() + jwtExpiration)
                     .build().verify(token).getSubject();
             UserDetails userDetails = userDetailsService.loadUserByUsername(email);
             Authentication authentication = new UsernamePasswordAuthenticationToken(email, null, userDetails.getAuthorities());

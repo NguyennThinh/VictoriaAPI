@@ -5,17 +5,18 @@ import com.commerce.shop.model.Cart;
 import com.commerce.shop.model.ItemCart;
 import com.commerce.shop.model.Product;
 import com.commerce.shop.model.User;
+import com.commerce.shop.model.dto.ListItemCheckout;
 import com.commerce.shop.repository.CartRepository;
 import com.commerce.shop.repository.ItemCartRepository;
 import com.commerce.shop.repository.ProductRepository;
 import com.commerce.shop.repository.UserRepository;
 import com.commerce.shop.service.CartService;
-import com.commerce.shop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,6 +34,8 @@ public class CartDaoImpl  implements CartService {
 
     @Autowired
     private ItemCartRepository itemRepository;
+
+
 
     @Override
     public Cart viewCart() {
@@ -72,4 +75,6 @@ public class CartDaoImpl  implements CartService {
         cartRepository.save(itemCart.getCart());
 
     }
+
+
 }

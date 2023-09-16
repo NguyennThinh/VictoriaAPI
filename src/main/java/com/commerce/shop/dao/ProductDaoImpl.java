@@ -7,6 +7,7 @@ import com.commerce.shop.repository.CategoryRepository;
 import com.commerce.shop.repository.ProductRepository;
 import com.commerce.shop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,8 +22,14 @@ public class ProductDaoImpl implements ProductService {
     private CategoryRepository categoryRepository;
 
     @Override
-    public List<Product> findProductByCategory(int categoryId) {
+    public List<Product> findProductByCategory(int categoryId, Pageable pageable) {
 
+        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new NotFoundException("Not found category with id: "+categoryId));
+        return productRepository.findAllByCategory(category,pageable).getContent();
+    }
+
+    @Override
+    public List<Product> findAllProductByCategory(int categoryId) {
         Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new NotFoundException("Not found category with id: "+categoryId));
 
         return productRepository.findByCategory(category);
@@ -37,7 +44,7 @@ public class ProductDaoImpl implements ProductService {
     @Override
     public List<Product> findProductTrending() {
 
-        return productRepository.findProductTrending();
+        return productRepository.findProductTrendingIndex();
     }
 
     @Override
@@ -48,5 +55,33 @@ public class ProductDaoImpl implements ProductService {
     @Override
     public List<Product> findOtherProduct() {
         return productRepository.findOtherProduct();
+    }
+
+    @Override
+    public List<Product> findProductSale() {
+        return productRepository.findProductSale();
+    }
+
+    @Override
+    public List<Product> findAllProduct() {
+
+
+        return productRepository.findAll();
+    }
+
+    @Override
+    public List<Product> findProductPage(Pageable pageable) {
+
+        return productRepository.findAll(pageable).getContent();
+    }
+
+    @Override
+    public List<Product> findSaleProductPage(Pageable pageable) {
+        return productRepository.findAllBySale(pageable).getContent();
+    }
+
+    @Override
+    public   List<Product>  searchProduct(String keyword) {
+        return productRepository.searchProductByName(keyword).orElseThrow(() -> new NotFoundException("Not found product"));
     }
 }

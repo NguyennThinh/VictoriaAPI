@@ -25,7 +25,4 @@ public class ProductImage {
     @JsonIgnore
     private Product product;
 
-    @ManyToOne
-    @JoinColumn(name = "colorId")
-    private Color color;
 }

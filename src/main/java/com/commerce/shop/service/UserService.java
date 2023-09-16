@@ -12,6 +12,9 @@ public interface UserService {
 
     Review userComment(String comment, int idProduct, int rating);
 
+    boolean checkout(String address, String country, String state, String payment, boolean isSave);
+
+
 }
 
 

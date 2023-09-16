@@ -1,6 +1,5 @@
 package com.commerce.shop.model;
 
-import com.commerce.shop.model.dto.RandomCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -41,6 +40,7 @@ public class User {
     @ManyToOne
     private Role role;
 
+
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Order> orders;
@@ -49,3 +49,5 @@ public class User {
     @JsonIgnore
     private List<Review> reviews;
 }
+
+

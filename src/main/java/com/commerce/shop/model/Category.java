@@ -27,6 +27,6 @@ public class Category {
     private String categoryName;
 
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE})
-    @JsonIgnore
+
     private List<Product> products;
 }
